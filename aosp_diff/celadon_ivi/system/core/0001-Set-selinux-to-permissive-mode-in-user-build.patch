@@ -1,0 +1,32 @@
+From 8d16c8afaa43263e2bd1e881653b55a0904073b8 Mon Sep 17 00:00:00 2001
+From: jizhenlo <zhenlong.z.ji@intel.com>
+Date: Tue, 27 Jun 2023 09:57:25 +0800
+Subject: [PATCH] Set selinux to permissive mode in user build
+
+Signed-off-by: jizhenlo <zhenlong.z.ji@intel.com>
+---
+ init/selinux.cpp | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/init/selinux.cpp b/init/selinux.cpp
+index 29c0ff3ba..899e829a5 100644
+--- a/init/selinux.cpp
++++ b/init/selinux.cpp
+@@ -114,10 +114,10 @@ EnforcingStatus StatusFromProperty() {
+ }
+ 
+ bool IsEnforcing() {
+-    if (ALLOW_PERMISSIVE_SELINUX) {
+-        return StatusFromProperty() == SELINUX_ENFORCING;
+-    }
+-    return true;
++    if (StatusFromProperty() == SELINUX_ENFORCING)
++        LOG(INFO) << "SELinux is in enforcing mode ";
++
++    return false;
+ }
+ 
+ // Forks, executes the provided program in the child, and waits for the completion in the parent.
+-- 
+2.25.1
+
